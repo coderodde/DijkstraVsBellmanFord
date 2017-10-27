@@ -42,7 +42,22 @@ implements SingleSourceShortestPathAlgorithm<Node> {
         for (int i = 0; i < graph.size() - 1; ++i) {
             for (Node currentNode : graph) {
                 for (Node childNode : nodeExpander.expand(currentNode)) {
+                    double currentNodeDistance = 
+                            distances.getOrDefault(currentNode,
+                                                   Double.POSITIVE_INFINITY);
                     
+                    double childNodeDistance =
+                            distances.getOrDefault(childNode,
+                                                   Double.POSITIVE_INFINITY);
+                    
+                    double weight = weightFunction.get(currentNode, childNode);
+                    
+                    if (currentNodeDistance + weight < childNodeDistance) {
+                        distances.put(childNode, 
+                                      distances.get(currentNode) + weight);
+                        
+                        parents.put(childNode, currentNode);
+                    }
                 }
             }
         }
