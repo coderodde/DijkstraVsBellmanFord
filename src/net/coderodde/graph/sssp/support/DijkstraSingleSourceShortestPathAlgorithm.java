@@ -2,6 +2,7 @@ package net.coderodde.graph.sssp.support;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -17,19 +18,31 @@ import net.coderodde.graph.sssp.SingleSourceShortestPathAlgorithm;
  * 
  * @author Rodion "rodde" Efremov
  * @version 1.6 (Oct 27, 2017)
+ * @param <Node> the graph node type.
  */
 public class DijkstraSingleSourceShortestPathAlgorithm<Node>
 implements SingleSourceShortestPathAlgorithm<Node>{
 
+    /**
+     * Finds the shortest path tree starting from {@code sourceNode} using
+     * Dijkstra's algorithm.
+     * 
+     * @param sourceNode     the source node.
+     * @param graph          ignored.
+     * @param nodeExpander   the node expander.
+     * @param weightFunction the weight function.
+     * @return the shortest path tree.
+     */
     @Override
     public ShortestPathTree<Node> 
         computeShortestPaths(Node sourceNode, 
+                             List<Node> graph,
                              ForwardNodeExpander<Node> nodeExpander, 
                              DoubleWeightFunction<Node> weightFunction) {
-        Map<Node, Double> distances = new HashMap<>();
-        Map<Node, Node> parents = new HashMap<>();
-        Set<Node> closed = new HashSet<>();
-        Queue<NodeHolder<Node>> open = new PriorityQueue<>();
+        Map<Node, Double> distances = new HashMap<>(graph.size());
+        Map<Node, Node> parents = new HashMap<>(graph.size());
+        Set<Node> closed = new HashSet<>(graph.size());
+        Queue<NodeHolder<Node>> open = new PriorityQueue<>(graph.size());
         
         distances.put(sourceNode, 0.0);
         parents.put(sourceNode, null);
