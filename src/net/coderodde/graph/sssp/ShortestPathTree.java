@@ -21,16 +21,14 @@ public final class ShortestPathTree<Node> {
     private final Node sourceNode;
     private final DoubleWeightFunction<Node> weightFunction;
     
-    public ShortestPathTree(Map<Node, Node> parentMap,
+    ShortestPathTree(Map<Node, Node> parentMap,
                             Map<Node, Double> distanceMap,
                             Node sourceNode,
                             DoubleWeightFunction<Node> weightFunction) {
         this.parentMap = parentMap;
         this.distanceMap = distanceMap;
         this.sourceNode = sourceNode;
-        this.weightFunction = 
-                Objects.requireNonNull(weightFunction, 
-                                       "The input weight function is null.");
+        this.weightFunction = weightFunction;
     }
     
     @Override

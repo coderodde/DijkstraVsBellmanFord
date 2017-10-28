@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import net.coderodde.graph.sssp.Graph;
 import net.coderodde.graph.sssp.ShortestPathTree;
 import net.coderodde.graph.sssp.support.BellmanFordSingleSourceShortestPathAlgorithm;
 import net.coderodde.graph.sssp.support.DijkstraSingleSourceShortestPathAlgorithm;
@@ -42,7 +43,9 @@ public class Benchmark {
                                                         MIN_WEIGHT,
                                                         MAX_WEIGHT);
         System.out.println("bechmark(), seed = " + seed);
-        DirectedGraphNode sourceNode = choose(graphData.getGraph(), random);
+        DirectedGraphNode sourceNode = 
+                choose(graphData.getGraph().getNodeList(), random);
+        
         perform(graphData, sourceNode, true);
     }
     
@@ -56,7 +59,9 @@ public class Benchmark {
                                                         MIN_WEIGHT,
                                                         MAX_WEIGHT);
         for (int i = 0; i < WARMUP_ITERATIONS; ++i) {
-            DirectedGraphNode sourceNode = choose(graphData.getGraph(), random);
+            DirectedGraphNode sourceNode = 
+                    choose(graphData.getGraph().getNodeList(), random);
+            
             warmup(graphData, sourceNode);
         }
         
@@ -77,7 +82,7 @@ public class Benchmark {
     private static void perform(DirectedGraphData graphData, 
                                 DirectedGraphNode suorceNode,
                                 boolean print) {
-        List<DirectedGraphNode> graph = graphData.getGraph();
+        Graph<DirectedGraphNode> graph = graphData.getGraph();
         
         DirectedGraphWeightFunction weightFunction =
                 graphData.getWeightFunction();
@@ -153,16 +158,20 @@ public class Benchmark {
     
     private static final class DirectedGraphData {
         
-        private final List<DirectedGraphNode> graph;
+        private final Graph<DirectedGraphNode> graph;
         private final DirectedGraphWeightFunction weightFunction;
         
         DirectedGraphData(List<DirectedGraphNode> graph,
-                                 DirectedGraphWeightFunction weightFunction) {
-            this.graph = graph;
+                          DirectedGraphWeightFunction weightFunction) {
+            this.graph = new Graph<>();
             this.weightFunction = weightFunction;
+            
+            for (DirectedGraphNode node : graph) {
+                this.graph.addNode(node);
+            }
         }
         
-        List<DirectedGraphNode> getGraph() {
+        Graph<DirectedGraphNode> getGraph() {
             return graph;
         }
         

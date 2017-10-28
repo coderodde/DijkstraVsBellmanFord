@@ -10,7 +10,8 @@ import java.util.Set;
 import net.coderodde.graph.sssp.DoubleWeightFunction;
 import net.coderodde.graph.sssp.ForwardNodeExpander;
 import net.coderodde.graph.sssp.ShortestPathTree;
-import net.coderodde.graph.sssp.SingleSourceShortestPathAlgorithm;
+import net.coderodde.graph.sssp.AbstractSingleSourceShortestPathAlgorithm;
+import net.coderodde.graph.sssp.Graph;
 
 /**
  * This class implements Dijkstra's algorithm for finding a shortest path tree
@@ -21,7 +22,7 @@ import net.coderodde.graph.sssp.SingleSourceShortestPathAlgorithm;
  * @param <Node> the graph node type.
  */
 public class DijkstraSingleSourceShortestPathAlgorithm<Node>
-implements SingleSourceShortestPathAlgorithm<Node>{
+extends AbstractSingleSourceShortestPathAlgorithm<Node>{
 
     /**
      * Finds the shortest path tree starting from {@code sourceNode} using
@@ -36,7 +37,7 @@ implements SingleSourceShortestPathAlgorithm<Node>{
     @Override
     public ShortestPathTree<Node> 
         computeShortestPaths(Node sourceNode, 
-                             List<Node> graph,
+                             Graph<Node> graph,
                              ForwardNodeExpander<Node> nodeExpander, 
                              DoubleWeightFunction<Node> weightFunction) {
         Map<Node, Double> distances = new HashMap<>(graph.size());
@@ -46,7 +47,7 @@ implements SingleSourceShortestPathAlgorithm<Node>{
         
         distances.put(sourceNode, 0.0);
         parents.put(sourceNode, null);
-        open.add(new NodeHolder<Node>(sourceNode, 0.0));
+        open.add(new NodeHolder<>(sourceNode, 0.0));
         
         while (!open.isEmpty()) {
             Node currentNode = open.remove().getNode();
@@ -75,10 +76,10 @@ implements SingleSourceShortestPathAlgorithm<Node>{
             }
         }
         
-        return new ShortestPathTree<>(parents, 
-                                      distances,
-                                      sourceNode, 
-                                      weightFunction);
+        return constructShortestPathTree(parents, 
+                                         distances, 
+                                         sourceNode, 
+                                         weightFunction);
     }
         
     private static final class NodeHolder<Node> implements Comparable<NodeHolder<Node>> {

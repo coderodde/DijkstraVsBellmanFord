@@ -1,8 +1,8 @@
 package net.coderodde.graph.sssp;
 
 /**
- * This interface defines the API for weight functions with floating-point 
- * weights.
+ * This interface defines the API for weight functions with weights of type 
+ * {@code double}.
  * 
  * @author Rodion "rodde" Efremov
  * @version 1.6 (Oct 27, 2017)

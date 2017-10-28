@@ -6,7 +6,8 @@ import java.util.Map;
 import net.coderodde.graph.sssp.DoubleWeightFunction;
 import net.coderodde.graph.sssp.ForwardNodeExpander;
 import net.coderodde.graph.sssp.ShortestPathTree;
-import net.coderodde.graph.sssp.SingleSourceShortestPathAlgorithm;
+import net.coderodde.graph.sssp.AbstractSingleSourceShortestPathAlgorithm;
+import net.coderodde.graph.sssp.Graph;
 
 /**
  * This class implements Bellman-Ford algorithm for finding a shortest path tree
@@ -17,7 +18,7 @@ import net.coderodde.graph.sssp.SingleSourceShortestPathAlgorithm;
  * @param <Node> the graph node type.
  */
 public class BellmanFordSingleSourceShortestPathAlgorithm<Node> 
-implements SingleSourceShortestPathAlgorithm<Node> {
+        extends AbstractSingleSourceShortestPathAlgorithm<Node> {
 
     /**
      * Finds the shortest path tree starting from {@code sourceNode} using
@@ -33,7 +34,7 @@ implements SingleSourceShortestPathAlgorithm<Node> {
     public ShortestPathTree<Node> 
         computeShortestPaths(
                 Node sourceNode,
-                List<Node> graph,
+                Graph<Node> graph,
                 ForwardNodeExpander<Node> nodeExpander, 
                 DoubleWeightFunction<Node> weightFunction) {
         Map<Node, Double> distances = new HashMap<>(graph.size());
@@ -65,9 +66,9 @@ implements SingleSourceShortestPathAlgorithm<Node> {
             }
         }
         
-        return new ShortestPathTree<>(parents,
-                                      distances, 
-                                      sourceNode, 
-                                      weightFunction);
+        return constructShortestPathTree(parents, 
+                                         distances, 
+                                         sourceNode,
+                                         weightFunction);
     }
 }

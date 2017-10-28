@@ -1,8 +1,9 @@
 package net.coderodde.graph.sssp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class implements a graph path.
@@ -11,14 +12,13 @@ import java.util.Objects;
  * @version 1.6 (Oct 28, 2017)
  * @param <Node> the graph node type.
  */
-public final class GraphPath<Node> {
+public final class GraphPath<Node> implements Iterable<Node> {
     
     private final List<Node> path;
     private final double cost;
     
-    public GraphPath(List<Node> pathAsList, 
-                     DoubleWeightFunction<Node> weightFunction) {
-        Objects.requireNonNull(pathAsList, "The path node list is null.");
+    GraphPath(List<Node> pathAsList, 
+              DoubleWeightFunction<Node> weightFunction) {
         this.path = new ArrayList<>(pathAsList);
         
         double cost = 0.0;
@@ -30,11 +30,38 @@ public final class GraphPath<Node> {
         this.cost = cost;
     }
     
+    public int size() {
+        return path.size();
+    }
+    
     public Node getNode(int index) {
         return path.get(index);
     }
     
     public double getCost() {
         return cost;
+    }
+    
+    @Override
+    public Iterator<Node> iterator() {
+        return Collections.unmodifiableList(path).iterator();
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        String separator = "";
+        
+        for (Node node : path) {
+            sb.append(separator);
+            separator = " -> ";
+            sb.append(node.toString());
+        }
+        
+        return sb.append(", cost: ")
+                 .append(cost)
+                 .append("]")
+                 .toString();
     }
 }

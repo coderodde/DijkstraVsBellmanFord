@@ -3,6 +3,7 @@ package net.coderodde.graph.sssp.support;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import net.coderodde.graph.sssp.Graph;
 import net.coderodde.graph.sssp.GraphPath;
 import net.coderodde.graph.sssp.ShortestPathTree;
 import org.junit.Test;
@@ -42,8 +43,11 @@ public class DijkstraSingleSourceShortestPathAlgorithmTest {
         weightFunction.put(c, e, 1.0);
         weightFunction.put(e, f, 20.0);
         
-        List<DirectedGraphNode> graph = 
-                new ArrayList<>(Arrays.asList(a, b, c, d, e, f));
+        Graph<DirectedGraphNode> graph = new Graph<>();
+        
+        for (DirectedGraphNode node : Arrays.asList(a, b, c, d, e, f)) {
+            graph.addNode(node);
+        }
         
         ShortestPathTree<DirectedGraphNode> tree = 
                 algorithm.computeShortestPaths(c, 
