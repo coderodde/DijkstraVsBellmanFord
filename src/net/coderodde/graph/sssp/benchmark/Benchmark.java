@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import net.coderodde.graph.sssp.ShortestPathTree;
+import net.coderodde.graph.sssp.support.BellmanFordSingleSourceShortestPathAlgorithm;
+import net.coderodde.graph.sssp.support.DijkstraSingleSourceShortestPathAlgorithm;
 import net.coderodde.graph.sssp.support.DirectedGraphNode;
+import net.coderodde.graph.sssp.support.DirectedGraphNodeForwardExpander;
 import net.coderodde.graph.sssp.support.DirectedGraphWeightFunction;
 
 /**
@@ -39,13 +43,12 @@ public class Benchmark {
                                                         MAX_WEIGHT);
         System.out.println("bechmark(), seed = " + seed);
         DirectedGraphNode sourceNode = choose(graphData.getGraph(), random);
-        DirectedGraphNode targetNode = choose(graphData.getGraph(), random);
-        System.out.println("Source node: " + sourceNode);
-        System.out.println("Target node: " + targetNode);
         perform(graphData, sourceNode, true);
     }
     
     private static void warmup() {
+        System.out.println("=== Warming up...");
+        
         Random random = new Random();
         DirectedGraphData graphData = createRandomGraph(WARMUP_NODES,
                                                         WARMUP_ARCS,
@@ -56,6 +59,9 @@ public class Benchmark {
             DirectedGraphNode sourceNode = choose(graphData.getGraph(), random);
             warmup(graphData, sourceNode);
         }
+        
+        System.out.println("=== Warming up done!");
+        System.out.println();
     }
     
     private static void warmup(DirectedGraphData graphData,
@@ -71,8 +77,23 @@ public class Benchmark {
     private static void perform(DirectedGraphData graphData, 
                                 DirectedGraphNode suorceNode,
                                 boolean print) {
+        List<DirectedGraphNode> graph = graphData.getGraph();
+        
+        DirectedGraphWeightFunction weightFunction =
+                graphData.getWeightFunction();
+        
+        DirectedGraphNodeForwardExpander expander = 
+                new DirectedGraphNodeForwardExpander();
+        
         long start = System.currentTimeMillis();
-        List<DirectedGraphNode> path1 = null;
+        
+        ShortestPathTree<DirectedGraphNode> tree1 =
+            new DijkstraSingleSourceShortestPathAlgorithm<DirectedGraphNode>()
+                .computeShortestPaths(suorceNode, 
+                                      graph,
+                                      expander, 
+                                      weightFunction);
+        
         long end = System.currentTimeMillis();
         
         if (print) {
@@ -81,7 +102,14 @@ public class Benchmark {
         }
         
         start = System.currentTimeMillis();
-        List<DirectedGraphNode> path2 = null;
+        
+        ShortestPathTree<DirectedGraphNode> tree2 = 
+        new BellmanFordSingleSourceShortestPathAlgorithm<DirectedGraphNode>()
+                .computeShortestPaths(suorceNode, 
+                                      graph, 
+                                      expander, 
+                                      weightFunction);
+        
         end = System.currentTimeMillis();
         
         if (print) {
@@ -89,14 +117,12 @@ public class Benchmark {
                     (end - start) + " milliseconds.");
         }
         
-        if (!Objects.equals(path1, path2)) {
+        if (!Objects.equals(tree1, tree2)) {
             throw new IllegalStateException("Algorithms disagreed.");
         }
         
         if (print) {
             System.out.println("Algorithms agreed.");
-            System.out.println("Paths:");
-            path1.forEach(System.out::println);
         }
     }
     

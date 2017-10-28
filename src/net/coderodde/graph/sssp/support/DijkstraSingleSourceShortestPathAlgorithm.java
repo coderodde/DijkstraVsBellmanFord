@@ -75,7 +75,10 @@ implements SingleSourceShortestPathAlgorithm<Node>{
             }
         }
         
-        return new ShortestPathTree<>(parents, distances);
+        return new ShortestPathTree<>(parents, 
+                                      distances,
+                                      sourceNode, 
+                                      weightFunction);
     }
         
     private static final class NodeHolder<Node> implements Comparable<NodeHolder<Node>> {

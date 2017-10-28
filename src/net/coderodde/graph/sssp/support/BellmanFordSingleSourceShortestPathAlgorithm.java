@@ -54,7 +54,7 @@ implements SingleSourceShortestPathAlgorithm<Node> {
                     
                     if (currentNodeDistance + weight < childNodeDistance) {
                         distances.put(childNode, 
-                                      distances.get(currentNode) + weight);
+                                      currentNodeDistance + weight);
                         
                         parents.put(childNode, currentNode);
                     }
@@ -62,6 +62,9 @@ implements SingleSourceShortestPathAlgorithm<Node> {
             }
         }
         
-        return new ShortestPathTree<>(parents, distances);
+        return new ShortestPathTree<>(parents,
+                                      distances, 
+                                      sourceNode, 
+                                      weightFunction);
     }
 }
