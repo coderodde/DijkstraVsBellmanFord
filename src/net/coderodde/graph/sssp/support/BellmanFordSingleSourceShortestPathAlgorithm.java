@@ -39,6 +39,9 @@ implements SingleSourceShortestPathAlgorithm<Node> {
         Map<Node, Double> distances = new HashMap<>(graph.size());
         Map<Node, Node> parents = new HashMap<>(graph.size());
         
+        distances.put(sourceNode, 0.0);
+        parents.put(sourceNode, null);
+        
         for (int i = 0; i < graph.size() - 1; ++i) {
             for (Node currentNode : graph) {
                 for (Node childNode : nodeExpander.expand(currentNode)) {
