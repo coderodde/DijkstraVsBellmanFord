@@ -9,7 +9,7 @@ package net.coderodde.graph.sssp;
  * @param <Node> the graph node type.
  */
 public interface DoubleWeightFunction<Node> {
-    
+
     /**
      * Sets the weight of a directed arc {@code (from, to)}.
      * 
@@ -18,7 +18,7 @@ public interface DoubleWeightFunction<Node> {
      * @param weight the weight of the arc.
      */
     public void put(Node from, Node to, double weight);
-    
+
     /**
      * Returns the weight of the directed arc {@code (from, to)}.
      * 

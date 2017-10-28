@@ -2,7 +2,6 @@ package net.coderodde.graph.sssp.support;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -44,29 +43,29 @@ extends AbstractSingleSourceShortestPathAlgorithm<Node>{
         Map<Node, Node> parents = new HashMap<>(graph.size());
         Set<Node> closed = new HashSet<>(graph.size());
         Queue<NodeHolder<Node>> open = new PriorityQueue<>(graph.size());
-        
+
         distances.put(sourceNode, 0.0);
         parents.put(sourceNode, null);
         open.add(new NodeHolder<>(sourceNode, 0.0));
-        
+
         while (!open.isEmpty()) {
             Node currentNode = open.remove().getNode();
-            
+
             if (closed.contains(currentNode)) {
                 continue;
             }
-            
+
             closed.add(currentNode);
-            
+
             for (Node childNode : nodeExpander.expand(currentNode)) {
                 if (closed.contains(childNode)) {
                     continue;
                 }
-                
+
                 double tentativeDistance = 
                         distances.get(currentNode) +
                         weightFunction.get(currentNode, childNode);
-                
+
                 if (!distances.containsKey(childNode) ||
                     distances.get(childNode) > tentativeDistance) {
                     distances.put(childNode, tentativeDistance);
@@ -75,28 +74,28 @@ extends AbstractSingleSourceShortestPathAlgorithm<Node>{
                 }
             }
         }
-        
+
         return constructShortestPathTree(parents, 
                                          distances, 
                                          sourceNode, 
                                          weightFunction);
     }
-        
+
     private static final class NodeHolder<Node> implements Comparable<NodeHolder<Node>> {
 
         private final double distance;
         private final Node node;
-        
+
         NodeHolder(Node node, double distance) {
             this.distance = distance;
             this.node = node;
         }
-        
+
         @Override
         public int compareTo(NodeHolder<Node> o) {
             return Double.compare(distance, o.distance);
         }
-        
+
         Node getNode() {
             return node;
         }

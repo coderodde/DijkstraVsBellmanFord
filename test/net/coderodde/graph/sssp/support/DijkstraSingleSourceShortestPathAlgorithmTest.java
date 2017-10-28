@@ -1,8 +1,6 @@
 package net.coderodde.graph.sssp.support;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import net.coderodde.graph.sssp.Graph;
 import net.coderodde.graph.sssp.GraphPath;
 import net.coderodde.graph.sssp.ShortestPathTree;

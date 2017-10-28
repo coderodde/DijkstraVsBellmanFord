@@ -1,7 +1,6 @@
 package net.coderodde.graph.sssp.support;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import net.coderodde.graph.sssp.DoubleWeightFunction;
 import net.coderodde.graph.sssp.ForwardNodeExpander;
@@ -39,33 +38,33 @@ public class BellmanFordSingleSourceShortestPathAlgorithm<Node>
                 DoubleWeightFunction<Node> weightFunction) {
         Map<Node, Double> distances = new HashMap<>(graph.size());
         Map<Node, Node> parents = new HashMap<>(graph.size());
-        
+
         distances.put(sourceNode, 0.0);
         parents.put(sourceNode, null);
-        
+
         for (int i = 0; i < graph.size() - 1; ++i) {
             for (Node currentNode : graph) {
                 for (Node childNode : nodeExpander.expand(currentNode)) {
                     double currentNodeDistance = 
                             distances.getOrDefault(currentNode,
                                                    Double.POSITIVE_INFINITY);
-                    
+
                     double childNodeDistance =
                             distances.getOrDefault(childNode,
                                                    Double.POSITIVE_INFINITY);
-                    
+
                     double weight = weightFunction.get(currentNode, childNode);
-                    
+
                     if (currentNodeDistance + weight < childNodeDistance) {
                         distances.put(childNode, 
                                       currentNodeDistance + weight);
-                        
+
                         parents.put(childNode, currentNode);
                     }
                 }
             }
         }
-        
+
         return constructShortestPathTree(parents, 
                                          distances, 
                                          sourceNode,

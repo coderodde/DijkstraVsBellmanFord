@@ -16,17 +16,17 @@ import java.util.Set;
  * @param <Node> the graph node type.
  */
 public final class Graph<Node> implements Iterable<Node> {
-    
+
     private final Set<Node> nodeSet = new HashSet<>();
-    
+
     public void addNode(Node node) {
         nodeSet.add(Objects.requireNonNull(node, "The input node is null."));
     }
-    
+
     public int size() {
         return nodeSet.size();
     }
-    
+
     public List<Node> getNodeList() {
         return new ArrayList<>(nodeSet);
     }

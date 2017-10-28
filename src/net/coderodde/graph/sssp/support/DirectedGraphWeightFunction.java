@@ -1,6 +1,5 @@
 package net.coderodde.graph.sssp.support;
 
-import net.coderodde.graph.sssp.support.DirectedGraphNode;
 import java.util.HashMap;
 import java.util.Map;
 import net.coderodde.graph.sssp.DoubleWeightFunction;
@@ -16,13 +15,13 @@ public class DirectedGraphWeightFunction
 
     private final Map<DirectedGraphNode,
                       Map<DirectedGraphNode, Double>> map = new HashMap<>();
-    
+
     @Override
     public void put(DirectedGraphNode from, DirectedGraphNode to, double weight) {
         if (!map.containsKey(from)) {
             map.put(from, new HashMap<>());
         }
-        
+
         map.get(from).put(to, weight);
     }
 

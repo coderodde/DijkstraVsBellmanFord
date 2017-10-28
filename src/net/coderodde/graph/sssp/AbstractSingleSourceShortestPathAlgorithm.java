@@ -1,6 +1,5 @@
 package net.coderodde.graph.sssp;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Map;
  * @param <Node> the graph node type.
  */
 public abstract class AbstractSingleSourceShortestPathAlgorithm<Node> {
-    
+
     /**
      * Computes a shortest path tree starting from {@code sourceNode}, using 
      * {@code nodeExpander} as the child node generator, and 
@@ -28,7 +27,7 @@ public abstract class AbstractSingleSourceShortestPathAlgorithm<Node> {
                              Graph<Node> graph,
                              ForwardNodeExpander<Node> nodeExpander,
                              DoubleWeightFunction<Node> weightFunction);
-        
+
     protected ShortestPathTree<Node> 
         constructShortestPathTree(Map<Node, Node> parents,
                                   Map<Node, Double> distances,

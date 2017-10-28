@@ -11,7 +11,7 @@ import java.util.List;
  * @param <Node> the graph node type.
  */
 public interface ForwardNodeExpander<Node> {
-    
+
     /**
      * Generates and returns a list of child nodes of {@code node}.
      * 

@@ -1,6 +1,5 @@
 package net.coderodde.graph.sssp.support;
 
-import net.coderodde.graph.sssp.support.DirectedGraphNode;
 import java.util.List;
 import net.coderodde.graph.sssp.ForwardNodeExpander;
 
