@@ -25,7 +25,7 @@ public class Benchmark {
     private static final int WARMUP_NODES = 10000;
     private static final int WARMUP_ARCS = 30000;
     private static final int BENCHMARK_NODES = 10000;
-    private static final int BENCHMARK_ARCS = 30000;
+    private static final int BENCHMARK_ARCS = 300000;
     private static final double MIN_WEIGHT = 0.0;
     private static final double MAX_WEIGHT = 20.0;
     

@@ -18,16 +18,13 @@ public final class ShortestPathTree<Node> {
     private final Map<Node, Node> parentMap;
     private final Map<Node, Double> distanceMap;
     private final Node sourceNode;
-    private final DoubleWeightFunction<Node> weightFunction;
 
     ShortestPathTree(Map<Node, Node> parentMap,
-                            Map<Node, Double> distanceMap,
-                            Node sourceNode,
-                            DoubleWeightFunction<Node> weightFunction) {
+                     Map<Node, Double> distanceMap,
+                     Node sourceNode) {
         this.parentMap = parentMap;
         this.distanceMap = distanceMap;
         this.sourceNode = sourceNode;
-        this.weightFunction = weightFunction;
     }
 
     @Override
@@ -65,6 +62,6 @@ public final class ShortestPathTree<Node> {
         }
 
         Collections.reverse(path);
-        return new GraphPath<>(path, weightFunction);
+        return new GraphPath<>(path, distanceMap.get(targetNode));
     }
 }
